@@ -1,0 +1,29 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    k8s-app: {{ .Chart.Name }}
+  name: {{ .Chart.Name }}:system:auth-delegator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Chart.Name }}
+    namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    k8s-app: {{ .Chart.Name }}
+  name: system:{{ .Chart.Name }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:{{ .Chart.Name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Chart.Name }}
+    namespace: kube-system
